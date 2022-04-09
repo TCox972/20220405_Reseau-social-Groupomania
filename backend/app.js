@@ -6,6 +6,9 @@ const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
 
+const userRoutes = require('./routes/user')
+const messageRoutes = require('./routes/message')
+
 const app = express()
 
 app.use(express.json())
@@ -20,7 +23,7 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) throw err;
-  console.log('Connexion établi')
+  console.log('Connexion à la base de données établi')
 })
 
 //En-tête de gestion des origines
@@ -30,5 +33,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
+
+app.use('/api/auth', userRoutes)
+app.use('/api/message', messageRoutes)
 
 module.exports = app;
