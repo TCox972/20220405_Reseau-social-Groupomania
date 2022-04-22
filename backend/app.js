@@ -5,6 +5,7 @@ dotenv.config()
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
+const path = require('path')
 
 const userRoutes = require('./routes/user')
 const messageRoutes = require('./routes/message')
@@ -12,13 +13,14 @@ const messageRoutes = require('./routes/message')
 const app = express()
 
 app.use(express.json())
+app.use(express.urlencoded())
 app.use(cors())
 
 //Connexion à la base de données MySQL
 const db = mysql.createConnection({
   host : process.env.DB_HOST,
   user : process.env.DB_USER,
-  password : process.env.DB_PASSWORD
+  password : process.env.DB_PASSWORD,
 })
 
 db.connect((err) => {
@@ -36,5 +38,6 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', userRoutes)
 app.use('/api/message', messageRoutes)
+app.use('/images', express.static(path.join(__dirname, 'images')))
 
 module.exports = app;
