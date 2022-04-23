@@ -2,7 +2,6 @@ const model = require('../models')
 const fs = require('fs')
 
 exports.createMessage = (req, res, next) => {
-    let post = req.body.message
     if (req.file) {
         model.Message.create({
             UserId: res.locals.userId,
@@ -29,8 +28,14 @@ exports.readAllMessage = (req, res, next) => {
         .catch(error => res.status(400).json({error}))
 }
 
-exports.modifyMessage = (req, res, next) => {
-
+exports.readMessage = (req, res, next) => {
+    model.Message.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(message => res.status(200).json(message))
+    .catch(error => res.status(400).json({error}))
 }
 
 exports.deleteMessage = (req, res, next) => {
@@ -69,5 +74,5 @@ exports.deleteMessage = (req, res, next) => {
 }
 
 exports.likeMessage = (req, res, next) => {
-
+    //A compléter
 }

@@ -9,7 +9,7 @@ const messageCtrl = require('../controllers/message')
 router.post('/', auth, multer, messageCtrl.createMessage)
 router.post('/:id/like', auth, messageCtrl.likeMessage)
 router.get('/', auth, messageCtrl.readAllMessage)
-router.put('/:id', auth, multer, messageCtrl.modifyMessage)
+router.get('/:id', auth, messageCtrl.readMessage)
 router.delete('/:id', auth, messageCtrl.deleteMessage)
 
 module.exports = router;

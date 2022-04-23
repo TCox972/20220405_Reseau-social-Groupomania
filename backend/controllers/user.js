@@ -72,3 +72,27 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }))
 }
+
+//Fonction d'affichage de compte
+exports.getAccount = (req, res, next) => {
+    db.User.findOne({
+        attributes: [ 'id', 'email', 'username', 'biography'],
+        where: {id: res.locals.userId}
+    })
+    .then(user => res.status(200).json(user))
+    .catch(error => res.status(500).json({error}))
+}
+
+//Fonction métier de modification de compte
+exports.modifyAccount = (req, res, next) => {
+   
+}
+
+//Fonction métiler de suppression de compte
+exports.deleteAccount = (req, res, next) => {
+        db.User.destroy({
+            where: {id: res.locals.userId}
+        })
+        .then(() => res.status(200).json({message: 'Objet supprimé'}))
+        .catch(error => res.status(400).json({error}))
+}
