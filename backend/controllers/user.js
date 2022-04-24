@@ -10,20 +10,20 @@ const { User } = require('../models')
 //Constantes de regex
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-//Fontion métier d'enregistrement d'un nouvel utilisateur
+//          CREATION D'UN NOUVEL UTILISATEUR
 exports.signup = (req, res, next) => {
 
 
     if (req.body.username == null || req.body.password == null || req.body.email == null) {
-        return res.status(400).json({'error' : 'Paramètres manquants'})
+        return res.status(400).json({ 'error': 'Paramètres manquants' })
     }
 
     if (req.body.username.length <= 3 || req.body.username.lenth >= 20) {
-        return res.status(400).json({'error': 'Username doit être compris entre 4 et 19 caractères'})
+        return res.status(400).json({ 'error': 'Username doit être compris entre 4 et 19 caractères' })
     }
 
     if (!EMAIL_REGEX.test(req.body.email)) {
-        return res.status(400).json({'error': 'Email invalide'})
+        return res.status(400).json({ 'error': 'Email invalide' })
     }
 
     //Hash du mot de passe
@@ -43,7 +43,7 @@ exports.signup = (req, res, next) => {
     //.catch(error => res.status(500).json({error}))
 }
 
-//Fonction métier de connextion et d'authetification d'un nouvel utilisateur
+//          CONNEXTION ET AUTHENTIFICATION UTILISATEUR
 exports.login = (req, res, next) => {
 
     //Récupération de la l'username de la requete et comparation avec la table User
@@ -73,26 +73,26 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }))
 }
 
-//Fonction d'affichage de compte
+//          AFFICHAGE DES INFORMATIONS DE COMPTE
 exports.getAccount = (req, res, next) => {
     db.User.findOne({
-        attributes: [ 'id', 'email', 'username', 'biography'],
-        where: {id: res.locals.userId}
+        attributes: ['id', 'email', 'username', 'biography'],
+        where: { id: res.locals.userId }
     })
-    .then(user => res.status(200).json(user))
-    .catch(error => res.status(500).json({error}))
+        .then(user => res.status(200).json(user))
+        .catch(error => res.status(500).json({ error }))
 }
 
-//Fonction métier de modification de compte
+//          MODIFICATION DE COMPTE
 exports.modifyAccount = (req, res, next) => {
-   
+    // A compléter
 }
 
-//Fonction métiler de suppression de compte
+//          SUPPRESSION DE COMPTE
 exports.deleteAccount = (req, res, next) => {
         db.User.destroy({
-            where: {id: res.locals.userId}
+            where: { id: res.locals.userId }
         })
-        .then(() => res.status(200).json({message: 'Objet supprimé'}))
-        .catch(error => res.status(400).json({error}))
+            .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
+            .catch(error => res.status(400).json({ error }))
 }
