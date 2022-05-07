@@ -86,13 +86,35 @@ exports.getAccount = (req, res, next) => {
 //          MODIFICATION DE COMPTE
 exports.modifyAccount = (req, res, next) => {
     // A compléter
+    db.User.findOne({
+        where: {id : res.locals.id}
+    })
+    .then(user => {
+        if (user.id === res.locals.userId) {
+            db.User.update({
+                
+            })
+        }
+    })
+    .catch(error => res.status(400).json({error : 'Requête impossible'}))
 }
 
 //          SUPPRESSION DE COMPTE
 exports.deleteAccount = (req, res, next) => {
-        db.User.destroy({
-            where: { id: res.locals.userId }
-        })
-            .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
-            .catch(error => res.status(400).json({ error }))
+    db.User.findOne({
+        where: {id: res.locals.userId}
+    })
+    .then(user => {
+        if (user.isAdmin === true || user.id === res.locals.userId) {
+            db.User.destroy({
+                where: { id: req.params.id }
+            })
+                .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
+                .catch(error => res.status(400).json({ error }))
+        } else {
+            return res.status(403).json({message : 'Requête non autorisée !'})
+        }
+    })
+    .catch(error => res.status(400).json({error : 'Supression échoué'}))
+    
 }

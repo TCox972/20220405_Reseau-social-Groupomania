@@ -84,7 +84,6 @@ exports.deleteMessage = (req, res, next) => {
                 } else {
                     return res.status(403).json({message: 'Requête non autorisée !'})
                 }
-                
             }
         })
         .catch(error => res.status(403).json({ error : 'Requête non autorisée !'}))
@@ -95,5 +94,5 @@ exports.deleteMessage = (req, res, next) => {
 //          GESTION DES LIKES
 exports.likeMessage = (req, res, next) => {
     //A compléter
-
+    
 }

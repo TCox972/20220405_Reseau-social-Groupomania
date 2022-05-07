@@ -11,7 +11,7 @@ const userCtrl = require('../controllers/user')
 router.post('/signup', strongPassword, userCtrl.signup)
 router.post('/login', userCtrl.login)
 router.get('/myaccount/:id', auth, userCtrl.getAccount)
-router.put('/myaccount/:id',auth, userCtrl.modifyAccount)
+router.put('/myaccount/:id', auth, userCtrl.modifyAccount)
 router.delete('/myaccount/:id', auth, userCtrl.deleteAccount)
 
 module.exports = router
