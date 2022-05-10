@@ -28,8 +28,9 @@
           <v-col>
             <v-text-field
               v-model="userName"
-              :rules="[rules.required, rules.min, rules.max, rules.nospace]"
+              :rules="[rules.required, rules.minUsername, rules.maxUsername, rules.nospace]"
               label="Nom d'utilisateur"
+              hint="3-20 caractères, pas d'espaces"
               required
             ></v-text-field>
           </v-col>
@@ -42,7 +43,7 @@
               :type="show1 ? 'text' : 'password'"
               name="input-10-1"
               label="Mot de passe"
-              hint="4-80 caractères, 1 Maj, 1 Min, pas d'espaces"
+              hint="4-80 caractères, 1 Maj, 1 Min, Pas d'espaces"
               @click:append="show1 = !show1"
               counter
             ></v-text-field>
@@ -121,9 +122,9 @@ export default {
     show1: false,
     password: "",
     rules: {
-      required: (value) => !!value || "Requis.",
-      min: (v) => v.length >= 3 || "Min 3 caractères",
-      max: (v) => v.length <= 20 || "Max 20 caractères",
+      required: (value) => !!value || "Requis",
+      minUsername: (v) => v.length >= 3 || "Min 3 caractères",
+      maxUsername: (v) => v.length <= 20 || "Max 20 caractères",
       minPassword: (v) => v.length >= 4 || "Min 4 caractères",
       maxPassword: (v) => v.length <= 80 || "Max 80 caractères",
       uppercase: (v) => /[A-Z]/.test(v) || "Majuscule obligatoire",

@@ -29,16 +29,18 @@
         ></v-text-field>
         <v-text-field
           v-model="userName"
+          :rules="[rules.required, rules.minUsername, rules.maxUsername, rules.nospace]"
           filled
+          hint="3-20 Caractères, Pas d'espace"
           color="blue"
           label="Nom d'utilisateur"
         ></v-text-field>
         <v-text-field
           v-model="password"
-          :rules="[rules.password, rules.length(6)]"
+          :rules="[rules.required, rules.minPassword, rules.maxPassword, rules.uppercase, rules.nospace]"
           filled
+          hint="4-80 Caractères, 1 Maj, Pas d'espace"
           color="blue"
-          counter="6"
           label="Mot de passe"
           style="min-height: 96px"
           type="password"
@@ -111,14 +113,13 @@ export default {
     userName: "",
     rules: {
       email: (v) => !!(v || "").match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) || "Please enter a valid email",
-      length: (len) => (v) =>
-        (v || "").length >= len || `Invalid character length, required ${len}`,
-      password: (v) =>
-        !!(v || "").match(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
-        ) ||
-        "Password must contain an upper case letter, a numeric character, and a special character",
-      required: (v) => !!v || "This field is required",
+      required: (value) => !!value || "Requis",
+      minUsername: (v) => v.length >= 3 || "Min 3 caractères",
+      maxUsername: (v) => v.length <= 20 || "Max 20 caractères",
+      minPassword: (v) => v.length >= 4 || "Min 4 caractères",
+      maxPassword: (v) => v.length <= 80 || "Max 80 caractères",
+      uppercase: (v) => /[A-Z]/.test(v) || "Majuscule obligatoire",
+      nospace: (v) => !/\s/g.test(v) || "Pas d'espace"
     },
   }),
 };
