@@ -4,6 +4,8 @@ const fs = require('fs')
 
 //          CREATION D'UN NOUVEAU MESSAGE
 exports.createMessage = (req, res, next) => {
+    console.log(req.body)
+    console.log(req.file)
     if (req.file) {
         model.Message.create({
             UserId: res.locals.userId,
@@ -11,7 +13,7 @@ exports.createMessage = (req, res, next) => {
             content: req.body.content,
             attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         })
-        .then(message => res.send(message))
+        .then(() => res.send({message : 'Post créé !'}))
         .catch(error => res.status(404).json({error}))
     } else {
         model.Message.create({

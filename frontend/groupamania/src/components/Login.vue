@@ -1,18 +1,6 @@
 <template>
   <div class="main">
-    <div class="loading"></div>
-    <v-toolbar
-      height="150px"
-      class="mb-16"
-      src="../../public/images/icon-siege.png"
-    >
-      <v-img
-        max-height="150"
-        max-width="250"
-        class="logo"
-        src="../../public/images/icon-left-font-monochrome-white.png"
-      ></v-img>
-    </v-toolbar>
+    <!-- <div class="loading"></div> --> 
 
     <h1 class="text-center">Bienvenue sur notre réseau social</h1>
     <v-form class="login" v-model="valid">
@@ -27,7 +15,7 @@
         <v-row class="d-flex justify-center flex-column">
           <v-col>
             <v-text-field
-              v-model="userName"
+              v-model="username"
               :rules="[rules.required, rules.minUsername, rules.maxUsername, rules.nospace]"
               label="Nom d'utilisateur"
               hint="3-20 caractères, pas d'espaces"
@@ -41,16 +29,14 @@
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required, rules.minPassword, rules.maxPassword, rules.uppercase, rules.nospace]"
               :type="show1 ? 'text' : 'password'"
-              name="input-10-1"
               label="Mot de passe"
               hint="4-80 caractères, 1 Maj, 1 Min, Pas d'espaces"
               @click:append="show1 = !show1"
-              counter
             ></v-text-field>
           </v-col>
-          <p id="login_aide"></p>
           <v-btn
             @click="connection"
+            :disabled="!valid"
             type="submit"
             class="ma-7 white--text"
             elevation="7"
@@ -113,12 +99,13 @@
 </template>
 
 <script>
+
 export default {
   name: "LoginComp",
 
   data: () => ({
     valid: false,
-    userName: "",
+    username: "",
     show1: false,
     password: "",
     rules: {
@@ -133,12 +120,29 @@ export default {
     icons: ["mdi-linkedin", "mdi-instagram"],
   }),
   methods: {
-    connection(e) {
-      e.preventDefault();
-      if (this.password === "" || this.userName === "") {
-        return (document.querySelector("#login_aide").innerHTML =
-          "Veuillez renseigner les champs");
-      }
+    connection() {
+      fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          username: this.username,
+          password: this.password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+    
+          this.$store.commit("ADD_TOKEN", {
+            userId: data.userId,
+            token: data.token
+          })
+          window.location.href = window.location.href + "mur"
+        })
+        .catch((error) => console.log(error));
     },
   },
 };
