@@ -12,9 +12,11 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    //Ajout du token dans le state
     ADD_TOKEN (state, newauth) {
       state.user = newauth
     },
+    //Suppression du token
     LOGOUT (state) {
       state.user = {}
     }

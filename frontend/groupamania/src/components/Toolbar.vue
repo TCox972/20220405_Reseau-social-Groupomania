@@ -1,11 +1,7 @@
 <template>
   <v-card class="overflow-hidden">
-    <v-app-bar
-      height="60px"
-      color="white"
-      elevate-on-scroll
-    >
-      <router-link to="/mur">
+    <v-app-bar height="60px" color="white" elevate-on-scroll>
+      <router-link class="link" to="/mur">
         <v-img
           max-height="60"
           max-width="160"
@@ -17,16 +13,21 @@
       <v-spacer></v-spacer>
 
       <div class="nav">
-        <v-btn icon>
-          <v-icon x-large color="#fd2d01">mdi-home</v-icon>
-        </v-btn>
+        <router-link class="link" to="/mur">
+          <v-btn icon>
+            <v-icon x-large color="#fd2d01">mdi-home</v-icon>
+          </v-btn>
+        </router-link>
+        <router-link class="link" to="/account">
+          <v-btn icon>
+            <v-icon x-large color="#fd2d01">mdi-account-circle</v-icon>
+          </v-btn>
+        </router-link>
 
         <v-btn icon>
-          <v-icon x-large color="#fd2d01">mdi-account-circle</v-icon>
-        </v-btn>
-
-        <v-btn icon>
-          <v-icon x-large color="#fd2d01">mdi-logout</v-icon>
+          <v-icon @click="disconnect" x-large color="#fd2d01"
+            >mdi-logout</v-icon
+          >
         </v-btn>
       </div>
     </v-app-bar>
@@ -36,10 +37,22 @@
 <script>
 export default {
   name: "ToolbarComp",
+
+  methods: {
+    disconnect() {
+      this.$store.commit("LOGOUT");
+      window.location.href =
+        window.location.protocol + "/" + window.location.host;
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
+.link {
+  text-decoration: none;
+}
+
 .nav {
   display: flex;
   justify-content: space-around;

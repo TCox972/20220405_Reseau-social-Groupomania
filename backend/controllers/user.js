@@ -118,3 +118,10 @@ exports.deleteAccount = (req, res, next) => {
     .catch(error => res.status(400).json({error : 'Supression échoué'}))
     
 }
+
+//          RECUPERE TOUS LES USERS
+exports.allUsers = (req, res, next) => {
+    db.User.findAll()
+        .then((users) => res.status(200).json(users))
+        .catch(error => res.status(400).json({error}))
+}

@@ -1,13 +1,13 @@
 <template>
-  <div class="mainmur">
+  <div class="main">
     <ToolbarComp></ToolbarComp>
-    <MurComp></MurComp>
+    <AccountComp></AccountComp>
     <FooterComp class="footer"></FooterComp>
   </div>
 </template>
 
 <script>
-  import MurComp from '../components/Mur'
+  import AccountComp from '../components/Account'
   import ToolbarComp from '../components/Toolbar'
   import FooterComp from '../components/Footer'
 
@@ -16,7 +16,7 @@
     name: 'MurView',
 
     components: {
-    MurComp,
+    AccountComp,
     ToolbarComp,
     FooterComp
 },
@@ -25,7 +25,7 @@
 
 <style scoped>
 
-.mainmur{
+.main{
   background-color: #F5F5F5;
   height: 100%;
 }
@@ -34,5 +34,4 @@
   bottom: 0;
   width: 100%;
 }
-
 </style>>

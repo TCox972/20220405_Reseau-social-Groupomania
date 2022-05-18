@@ -7,7 +7,7 @@
       max-width="550"
     >
       <div class="d-flex pt-4 ml-5">
-        <p>My Username</p>
+        <p class=" name font-weight-bold"> {{ me.username }} </p>
       </div>
       <v-card-title>
         <v-spacer></v-spacer>
@@ -61,47 +61,34 @@
       max-width="550"
       v-for="message in messages" :key="message.id"
     >
-      <div class="d-flex pt-4 ml-5">
-        <p>{{ message.UserId }}</p>
+      <div class=" headpost pt-4">
+        <p class="name font-weight-bold">{{ message.User.username }}</p>
+        <v-btn v-if="message.UserId == me.id" icon x-small @click="postdelete(message.id)">
+          <v-icon color="grey">mdi-delete-outline</v-icon>
+        </v-btn>
+        
       </div>
 
       <v-img
         class="white--text align-end"
-        height="300px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        max-height="300px"
+        :src="message.attachment"
       >
-        <v-card-title>{{ message.title }}</v-card-title>
+        <v-card-title class="title">{{ message.title }}</v-card-title>
       </v-img>
 
       <v-card-text class="text--primary">
         <div> {{ message.content }} </div>
 
-        <div class="date text-right">13/04/2022 à 9h00</div>
+        <div class="date text-right"> {{
+              message.createdAt
+                .slice(0, 10)
+                .split("-")
+                .reverse()
+                .join("/")
+            }}</div>
       </v-card-text>
     </v-card>
-    <v-footer padless>
-      <v-card
-        flat
-        tile
-        color="transparent"
-        class="white--text text-center"
-        width="100%"
-      >
-        <v-card-text>
-          <v-btn v-for="icon in icons" :key="icon" class="mx-4 red--text" icon>
-            <v-icon size="24px">
-              {{ icon }}
-            </v-icon>
-          </v-btn>
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-text class="red--text">
-          {{ new Date().getFullYear() }} — <strong>Groupomania</strong>
-        </v-card-text>
-      </v-card>
-    </v-footer>
   </div>
 </template>
 
@@ -111,14 +98,15 @@ export default {
 
   data: () => ({
     messages: [],
+    me: [],
+    hover: false,
     title: "",
     content: "",
-    attachment: "",
+    attachment: [],
     show: false,
     rules: {
       required: (value) => !!value || "Requis",
     },
-    icons: ["mdi-linkedin", "mdi-instagram"],
   }),
   mounted() {
     const token = this.$store.state.user.token;
@@ -130,11 +118,21 @@ export default {
       .then((data) => data.json())
       .then((res) => {
         this.messages = res;
-        console.log(this.messages)
-        console.log(this.messages.title)
+        console.log(res)
       });
+    
+    fetch("http://localhost:3000/api/auth/myaccount/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((data) => data.json())
+    .then((res) => {
+      this.me = res
+    })
   },
   methods: {
+
     publication() {
       const token = this.$store.state.user.token;
       const formdata = new FormData();
@@ -159,12 +157,46 @@ export default {
         })
         .catch((error) => console.log(error));
     },
+      postdelete(idMessage) {
+        
+        const token = this.$store.state.user.token;
+      fetch(`http://localhost:3000/api/message/${idMessage}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then(data => {
+          let message = data.message
+          console.log(message)
+          location.reload()
+        })
+    }
   },
 };
 </script>
 
 <style scoped>
+
+.title {
+  background-color: rgba(14, 94, 199, 0.778);
+}
+.headpost{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 16px 16px 16px;
+  justify-content: space-between;
+}
+.name {
+  font-size: 1.3rem;
+  margin: 0;
+}
 .date {
   font-size: 0.75rem;
 }
+
 </style>
