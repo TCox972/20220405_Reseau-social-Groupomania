@@ -23,12 +23,13 @@
             <v-icon x-large color="#fd2d01">mdi-account-circle</v-icon>
           </v-btn>
         </router-link>
-
-        <v-btn icon>
-          <v-icon @click="disconnect" x-large color="#fd2d01"
-            >mdi-logout</v-icon
-          >
-        </v-btn>
+        <router-link class="link" to="/">
+          <v-btn icon>
+            <v-icon @click="disconnect" x-large color="#fd2d01"
+              >mdi-logout</v-icon
+            >
+          </v-btn>
+        </router-link>
       </div>
     </v-app-bar>
   </v-card>
@@ -41,8 +42,6 @@ export default {
   methods: {
     disconnect() {
       this.$store.commit("LOGOUT");
-      window.location.href =
-        window.location.protocol + "/" + window.location.host;
     },
   },
 };

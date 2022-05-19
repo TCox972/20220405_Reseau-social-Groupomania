@@ -108,7 +108,7 @@ export default {
       required: (value) => !!value || "Requis",
     },
   }),
-  mounted() {
+  created() {
     const token = this.$store.state.user.token;
     fetch("http://localhost:3000/api/message/", {
       headers: {
@@ -118,7 +118,6 @@ export default {
       .then((data) => data.json())
       .then((res) => {
         this.messages = res;
-        console.log(res)
       });
     
     fetch("http://localhost:3000/api/auth/myaccount/", {

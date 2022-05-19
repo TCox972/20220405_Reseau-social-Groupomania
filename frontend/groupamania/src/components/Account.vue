@@ -11,11 +11,11 @@
         <template v-slot:default>
           <tbody>
             <tr>
-              <td>Email :</td>
-              <td>{{ email }}</td>
+              <td class="text-left">Email :</td>
+              <td class="text-left">{{ email }}</td>
             </tr>
             <tr>
-              <td>Biographie :</td>
+              <td class="text-left">Biographie :</td>
               <td class="text-justify">{{ biography }}</td>
             </tr>
           </tbody>
@@ -70,8 +70,7 @@ export default {
         .then((res) => {
           console.log(res.message);
           this.$store.commit("LOGOUT");
-          window.location.href =
-            window.location.protocol + "/" + window.location.host;
+          window.location.href = window.location.protocol + "/" + window.location.host;
         });
     },
   },

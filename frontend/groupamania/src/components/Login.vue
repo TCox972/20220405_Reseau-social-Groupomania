@@ -121,7 +121,7 @@ export default {
   }),
   methods: {
     connection() {
-      fetch("http://localhost:3000/api/auth/login", {
+      fetch("http://localhost:3000/api/auth/login/", {
         method: "POST",
         body: JSON.stringify({
           username: this.username,
@@ -131,14 +131,14 @@ export default {
           "Content-Type": "application/json",
         },
       })
-        .then((res) => {
-          return res.json();
-        })
         .then((data) => {
+          return data.json();
+        })
+        .then((res) => {
     
           this.$store.commit("ADD_TOKEN", {
-            userId: data.userId,
-            token: data.token
+            userId: res.userId,
+            token: res.token
           })
           window.location.href = window.location.href + "mur"
         })
