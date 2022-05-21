@@ -115,11 +115,14 @@ export default {
       minPassword: (v) => v.length >= 4 || "Min 4 caractères",
       maxPassword: (v) => v.length <= 80 || "Max 80 caractères",
       uppercase: (v) => /[A-Z]/.test(v) || "Majuscule obligatoire",
-      nospace: (v) => !/\s/g.test(v) || "Pas d'espace"
+      nospace: (v) => !/\s/g.test(v) || "Pas d'espace",
+      mdpnotmatch: (v) => v || "Le mot de passe et l'username ne correspondent pas"
     },
     icons: ["mdi-linkedin", "mdi-instagram"],
   }),
   methods: {
+
+    
     connection() {
       fetch("http://localhost:3000/api/auth/login/", {
         method: "POST",
@@ -136,11 +139,15 @@ export default {
         })
         .then((res) => {
     
-          this.$store.commit("ADD_TOKEN", {
+          
+          if(!res.error) {
+            this.$store.commit("ADD_TOKEN", {
             userId: res.userId,
             token: res.token
           })
-          window.location.href = window.location.href + "mur"
+            window.location.href = window.location.href + "mur"
+          }
+          
         })
         .catch((error) => console.log(error));
     },

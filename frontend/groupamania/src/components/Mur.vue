@@ -14,7 +14,7 @@
         Créer un nouveau message :
         <v-spacer></v-spacer>
         <v-btn icon @click="show = !show">
-          <v-icon x-large color="blue">{{
+          <v-icon x-large color="red">{{
             show ? "mdi-note-off-outline" : "mdi-note-plus-outline"
           }}</v-icon>
         </v-btn>
@@ -181,7 +181,7 @@ export default {
 <style scoped>
 
 .title {
-  background-color: rgba(14, 94, 199, 0.778);
+  background-color: rgba(134, 126, 126, 0.778);
 }
 .headpost{
   display: flex;

@@ -10,7 +10,7 @@ const userCtrl = require('../controllers/user')
 //Mise en place des routes
 router.post('/signup', strongPassword, userCtrl.signup)
 router.post('/login', userCtrl.login)
-router.get('/myaccount/', auth, userCtrl.getAccount)
+router.get('/myaccount', auth, userCtrl.getAccount)
 router.put('/myaccount/:id', auth, userCtrl.modifyAccount)
 router.delete('/myaccount/:id', auth, userCtrl.deleteAccount)
 router.get("/users", auth, userCtrl.allUsers)

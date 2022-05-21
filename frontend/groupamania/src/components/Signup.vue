@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    
     <h1 class="text-center pb-16">Rejoignez-nous sur notre plateforme</h1>
 
     <v-card class="mx-auto mb-16 pa-4" style="max-width: 500px">
@@ -59,18 +59,20 @@
       <v-divider color="#fd2d01"></v-divider>
 
       <v-card-actions class="d-flex justify-center">
-        <v-btn
-          :disabled="!form"
-          :loading="isLoading"
-          class="ma-7 white--text"
-          elevation="7"
-          height="45px"
-          width="200px"
-          color="#fd2d01"
-          @click="inscription"
-        >
-          S'INSCRIRE
-        </v-btn>
+        <router-link class="link" to="/">
+          <v-btn
+            :disabled="!form"
+            :loading="isLoading"
+            class="ma-7 white--text"
+            elevation="7"
+            height="45px"
+            width="200px"
+            color="#fd2d01"
+            @click="inscription"
+          >
+            S'INSCRIRE
+          </v-btn>
+        </router-link>
       </v-card-actions>
     </v-card>
     <v-footer dark padless>
@@ -112,7 +114,6 @@
 </template>
 
 <script>
-
 export default {
   name: "SignupComp",
   data: () => ({
@@ -156,8 +157,8 @@ export default {
         .then((res) => {
           return res.json();
         })
-        .then(() => {
-          window.location.href = window.location.protocol + window.location.host + "/"
+        .then((data) => {
+          console.log(data.message);
         })
         .catch((error) => console.log(error));
     },
@@ -166,4 +167,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.link{
+  text-decoration: none;
+}
 </style>

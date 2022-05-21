@@ -21,10 +21,17 @@
           </tbody>
         </template>
       </v-simple-table>
-      <v-card-action>
-        <v-btn color="blue" class="mb-6 mt-6 mx-3"> Modifier </v-btn>
-        <v-btn color="red" class="mb-6 mt-6 mx-3" @click="deleteAccount(userId)" > Supprimer </v-btn>
-      </v-card-action>
+
+      <v-btn color="blue" class="mb-6 mt-6 mx-3"> Modifier </v-btn>
+      <router-link class="link" to="/">
+        <v-btn
+          color="red"
+          class="mb-6 mt-6 mx-3"
+          @click="deleteAccount(userId)"
+        >
+          Supprimer
+        </v-btn>
+      </router-link>
     </v-card>
   </div>
 </template>
@@ -38,6 +45,8 @@ export default {
     email: "",
     biography: "",
     admin: "",
+    hover: false,
+  
   }),
 
   mounted() {
@@ -61,7 +70,7 @@ export default {
     deleteAccount(userId) {
       const token = this.$store.state.user.token;
       fetch(`http://localhost:3000/api/auth/myaccount/${userId}`, {
-        method:"DELETE",  
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -70,9 +79,15 @@ export default {
         .then((res) => {
           console.log(res.message);
           this.$store.commit("LOGOUT");
-          window.location.href = window.location.protocol + "/" + window.location.host;
         });
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.link {
+  text-decoration: none;
+}
+
+</style>

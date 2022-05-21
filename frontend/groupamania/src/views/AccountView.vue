@@ -30,7 +30,6 @@
   height: 100%;
 }
 .footer{
-  position: fixed;
   bottom: 0;
   width: 100%;
 }
