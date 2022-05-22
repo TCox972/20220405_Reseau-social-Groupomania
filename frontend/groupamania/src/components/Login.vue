@@ -143,6 +143,7 @@ export default {
             this.$store.commit("ADD_TOKEN", {
             userId: res.userId,
             username: res.username,
+            isAdmin: res.isAdmin,
             token: res.token
           })
             window.location.href = window.location.href + "mur"

@@ -63,10 +63,9 @@
     >
       <div class=" headpost pt-4">
         <p class="name font-weight-bold">{{ message.User.username }}</p>
-        <v-btn v-if="message.UserId == me.id" icon x-small @click="postdelete(message.id)">
+        <v-btn v-if="(message.UserId == me.id || me.isAdmin == true)" icon x-small @click="postdelete(message.id)">
           <v-icon color="grey">mdi-delete-outline</v-icon>
         </v-btn>
-        
       </div>
 
       <v-img
@@ -128,6 +127,7 @@ export default {
     .then((data) => data.json())
     .then((res) => {
       this.me = res
+      console.log(this.me)
     })
   },
   methods: {

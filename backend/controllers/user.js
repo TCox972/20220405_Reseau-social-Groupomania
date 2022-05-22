@@ -62,6 +62,7 @@ exports.login = (req, res, next) => {
                     res.status(200).json({
                         userId: user.id,
                         username: user.username,
+                        isAdmin: user.isAdmin,
                         token: jwt.sign(
                             { userId: user.id },
                             process.env.TOKEN_SECRET,
@@ -77,7 +78,7 @@ exports.login = (req, res, next) => {
 //          AFFICHAGE DES INFORMATIONS DE COMPTE
 exports.getAccount = (req, res, next) => {
     db.User.findOne({
-        attributes: ['id', 'email', 'username', 'biography'],
+        attributes: ['id', 'email', 'username', 'biography','isAdmin'],
         where: { id: res.locals.userId }
     })
         .then(user => res.status(200).json(user))
