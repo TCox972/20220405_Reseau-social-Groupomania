@@ -139,10 +139,10 @@ export default {
         })
         .then((res) => {
     
-          
           if(!res.error) {
             this.$store.commit("ADD_TOKEN", {
             userId: res.userId,
+            username: res.username,
             token: res.token
           })
             window.location.href = window.location.href + "mur"

@@ -151,13 +151,20 @@ export default {
         })
         .then((data) => {
           let message = data.message;
+          message.User = {
+            username: this.$store.state.user.username,
+            id: this.$store.state.user.userId,
+          }
           console.log(message);
-          location.reload();
+          this.messages.unshift(message)
+          this.show = false
+
         })
         .catch((error) => console.log(error));
     },
       postdelete(idMessage) {
         
+        const idDelete = this.messages.findIndex(message => message.id === message.id )
         const token = this.$store.state.user.token;
       fetch(`http://localhost:3000/api/message/${idMessage}`, {
         method: "DELETE",
@@ -171,7 +178,8 @@ export default {
         .then(data => {
           let message = data.message
           console.log(message)
-          location.reload()
+          this.messages.splice(idDelete,1)
+
         })
     }
   },

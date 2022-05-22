@@ -61,6 +61,7 @@ exports.login = (req, res, next) => {
                     //Renvoie d'une réponse avec un userID et un token d'auth.
                     res.status(200).json({
                         userId: user.id,
+                        username: user.username,
                         token: jwt.sign(
                             { userId: user.id },
                             process.env.TOKEN_SECRET,
