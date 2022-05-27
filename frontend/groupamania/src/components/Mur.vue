@@ -7,7 +7,7 @@
       max-width="550"
     >
       <div class="d-flex pt-4 ml-5">
-        <p class=" name font-weight-bold"> {{ me.username }} </p>
+        <p class="name font-weight-bold">{{ me.username }}</p>
       </div>
       <v-card-title>
         <v-spacer></v-spacer>
@@ -55,19 +55,34 @@
       </v-expand-transition>
     </v-card>
     <v-card
-      class="mx-auto rounded-lg mt-16 mb-16"
+      class="mx-auto rounded mt-8 mb-8"
       elevation="7"
       max-height="650"
       max-width="550"
-      v-for="message in messages" :key="message.id"
+      v-for="message in messages"
+      :key="message.id"
     >
-      <div class=" headpost pt-4">
+      <div class="headpost pt-4">
         <p class="name font-weight-bold">{{ message.User.username }}</p>
-        <v-btn v-if="(message.UserId == me.id || me.isAdmin == true)" icon x-small @click="postdelete(message.id)">
+        <v-btn
+          v-if="message.UserId == me.id || me.isAdmin == true"
+          icon
+          x-small
+          @click="showAlert = !showAlert"
+        >
           <v-icon color="grey">mdi-delete-outline</v-icon>
         </v-btn>
       </div>
-
+      <v-expand-transition>
+      <v-alert class="alert" v-show="showAlert" type="warning"> Voulez-vous supprimer ce message ? 
+      <v-btn outlined class="mx-3" @click="postdelete(message.id)">
+        Oui
+      </v-btn>
+      <v-btn outlined class="mx-3" @click="showAlert = !showAlert">
+        Non
+      </v-btn>
+      </v-alert>
+      </v-expand-transition>
       <v-img
         class="white--text align-end"
         max-height="300px"
@@ -77,15 +92,11 @@
       </v-img>
 
       <v-card-text class="text--primary">
-        <div> {{ message.content }} </div>
+        <div>{{ message.content }}</div>
 
-        <div class="date text-right"> {{
-              message.createdAt
-                .slice(0, 10)
-                .split("-")
-                .reverse()
-                .join("/")
-            }}</div>
+        <div class="date text-right">
+          {{ message.createdAt.slice(0, 10).split("-").reverse().join("/") }}
+        </div>
       </v-card-text>
     </v-card>
   </div>
@@ -98,11 +109,11 @@ export default {
   data: () => ({
     messages: [],
     me: [],
-    hover: false,
     title: "",
     content: "",
     attachment: [],
     show: false,
+    showAlert: false,
     rules: {
       required: (value) => !!value || "Requis",
     },
@@ -118,20 +129,18 @@ export default {
       .then((res) => {
         this.messages = res;
       });
-    
+
     fetch("http://localhost:3000/api/auth/myaccount/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((data) => data.json())
-    .then((res) => {
-      this.me = res
-      console.log(this.me)
-    })
+      .then((data) => data.json())
+      .then((res) => {
+        this.me = res;
+      });
   },
   methods: {
-
     publication() {
       const token = this.$store.state.user.token;
       const formdata = new FormData();
@@ -154,18 +163,21 @@ export default {
           message.User = {
             username: this.$store.state.user.username,
             id: this.$store.state.user.userId,
-          }
+          };
           console.log(message);
-          this.messages.unshift(message)
-          this.show = false
-
+          this.messages.unshift(message);
+          this.show = false;
+          this.title=''
+          this.content=''
+          this.attachment=[]
         })
         .catch((error) => console.log(error));
     },
-      postdelete(idMessage) {
-        
-        const idDelete = this.messages.findIndex(message => message.id === message.id )
-        const token = this.$store.state.user.token;
+    postdelete(idMessage) {
+      const idDelete = this.messages.findIndex(
+        (message) => message.id === idMessage
+      );
+      const token = this.$store.state.user.token;
       fetch(`http://localhost:3000/api/message/${idMessage}`, {
         method: "DELETE",
         headers: {
@@ -175,13 +187,12 @@ export default {
         .then((res) => {
           return res.json();
         })
-        .then(data => {
-          let message = data.message
-          console.log(message)
-          this.messages.splice(idDelete,1)
-
-        })
-    }
+        .then((data) => {
+          let message = data.message;
+          console.log(message);
+          this.messages.splice(idDelete, 1);
+        });
+    },
   },
 };
 </script>
@@ -191,7 +202,7 @@ export default {
 .title {
   background-color: rgba(134, 126, 126, 0.778);
 }
-.headpost{
+.headpost {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -205,5 +216,4 @@ export default {
 .date {
   font-size: 0.75rem;
 }
-
 </style>

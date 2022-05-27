@@ -21,17 +21,25 @@
           </tbody>
         </template>
       </v-simple-table>
-
-      <v-btn color="blue" class="mb-6 mt-6 mx-3"> Modifier </v-btn>
-      <router-link class="link" to="/">
         <v-btn
           color="red"
           class="mb-6 mt-6 mx-3"
-          @click="deleteAccount(userId)"
+          @click="showAlert = !showAlert"
         >
           Supprimer
         </v-btn>
+      <v-expand-transition>
+      <v-alert class="alert" v-show="showAlert" type="warning"> Voulez-vous supprimer le compte ?
+      <router-link class="link" to="/">
+        <v-btn outlined class="mx-3" @click="deleteAccount(userId)">
+        Oui
+      </v-btn>
       </router-link>
+      <v-btn outlined class="mx-3" @click="showAlert = !showAlert">
+        Non
+      </v-btn>
+      </v-alert>
+      </v-expand-transition>
     </v-card>
   </div>
 </template>
@@ -45,8 +53,7 @@ export default {
     email: "",
     biography: "",
     admin: "",
-    hover: false,
-  
+    showAlert: false,  
   }),
 
   mounted() {

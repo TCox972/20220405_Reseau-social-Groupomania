@@ -13,7 +13,7 @@ exports.createMessage = (req, res, next) => {
             content: req.body.content,
             attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         })
-            .then(() => res.send({ message: 'Post créé !' }))
+            .then((message) => res.send({ message }))
             .catch(error => res.status(404).json({ error }))
     } else {
         model.Message.create({
