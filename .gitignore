@@ -1,3 +1,8 @@
 /backend/node_modules
 /backend/.env
+<<<<<<< HEAD
 /frontend/groupamania/node_modules
+=======
+/backend/config
+/frontend/groupamania/node_modules
+>>>>>>> develop
