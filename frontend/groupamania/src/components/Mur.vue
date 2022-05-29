@@ -68,17 +68,17 @@
           v-if="message.UserId == me.id || me.isAdmin == true"
           icon
           x-small
-          @click="showAlert = !showAlert"
+          @click="showalert = !showalert"
         >
           <v-icon color="grey">mdi-delete-outline</v-icon>
         </v-btn>
       </div>
-      <v-expand-transition>
-      <v-alert class="alert" v-show="showAlert" type="warning"> Voulez-vous supprimer ce message ? 
+      <v-expand-transition v-if="message.UserId == me.id || me.isAdmin == true">
+      <v-alert :class="showalert" v-show="showalert" type="warning"> Voulez-vous supprimer ce message ? 
       <v-btn outlined class="mx-3" @click="postdelete(message.id)">
         Oui
       </v-btn>
-      <v-btn outlined class="mx-3" @click="showAlert = !showAlert">
+      <v-btn outlined class="mx-3" @click="showalert = !showalert">
         Non
       </v-btn>
       </v-alert>
@@ -113,7 +113,7 @@ export default {
     content: "",
     attachment: [],
     show: false,
-    showAlert: false,
+    showalert: false,
     rules: {
       required: (value) => !!value || "Requis",
     },
