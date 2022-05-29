@@ -1,4 +1,4 @@
-Jornat_Jean-Jerome_1_05042022
+Jornat_Jean-Jerome_7_05042022
 
 La mise en place du backend se fait en premier lieu.
 Il prend en charge les variables d'environnement du fichier .env qu'il faut configurer avec :

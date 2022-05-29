@@ -68,21 +68,12 @@
           v-if="message.UserId == me.id || me.isAdmin == true"
           icon
           x-small
-          @click="showalert = !showalert"
+          @click="confirmdelete(message)"
         >
           <v-icon color="grey">mdi-delete-outline</v-icon>
         </v-btn>
       </div>
-      <v-expand-transition v-if="message.UserId == me.id || me.isAdmin == true">
-      <v-alert :class="showalert" v-show="showalert" type="warning"> Voulez-vous supprimer ce message ? 
-      <v-btn outlined class="mx-3" @click="postdelete(message.id)">
-        Oui
-      </v-btn>
-      <v-btn outlined class="mx-3" @click="showalert = !showalert">
-        Non
-      </v-btn>
-      </v-alert>
-      </v-expand-transition>
+    
       <v-img
         class="white--text align-end"
         max-height="300px"
@@ -141,6 +132,11 @@ export default {
       });
   },
   methods: {
+    confirmdelete(message) {
+      if (confirm("Etes vous sure de vouloir supprimer ce post ?")) {
+        this.postdelete(message.id)
+      }
+    },
     publication() {
       const token = this.$store.state.user.token;
       const formdata = new FormData();
