@@ -47,7 +47,7 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
 
     //Récupération de la l'username de la requete et comparation avec la table User
-    User.findOne({ where: { username: req.body.username } })
+    User.findOne({ where: { email: req.body.email } })
         .then(user => {
             if (!user) {
                 return res.status(401).json({ error: 'Utilisateur non trouvé !' })

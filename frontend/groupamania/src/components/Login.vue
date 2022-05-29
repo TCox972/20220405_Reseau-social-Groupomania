@@ -15,15 +15,10 @@
         <v-row class="d-flex justify-center flex-column">
           <v-col>
             <v-text-field
-              v-model="username"
-              :rules="[
-                rules.required,
-                rules.minUsername,
-                rules.maxUsername,
-                rules.nospace,
-              ]"
-              label="Nom d'utilisateur"
-              hint="3-20 caractères, pas d'espaces"
+              v-model="email"
+              :rules="[rules.required, rules.email]"
+              label="Email"
+              hint=""
               required
             ></v-text-field>
           </v-col>
@@ -122,11 +117,15 @@ export default {
 
   data: () => ({
     valid: false,
-    username: "",
+    email: "",
     show1: false,
     password: "",
     rules: {
       required: (value) => !!value || "Requis",
+      email: (v) =>
+        !!(v || "").match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        ) || "Please enter a valid email",
       minUsername: (v) => v.length >= 3 || "Min 3 caractères",
       maxUsername: (v) => v.length <= 20 || "Max 20 caractères",
       minPassword: (v) => v.length >= 4 || "Min 4 caractères",
@@ -142,7 +141,7 @@ export default {
       fetch("http://localhost:3000/api/auth/login/", {
         method: "POST",
         body: JSON.stringify({
-          username: this.username,
+          email: this.email,
           password: this.password,
         }),
         headers: {
