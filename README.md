@@ -10,16 +10,37 @@ DB_PASSWORD : Mot de passe Mysql
 TOKEN_SECRET = 'RANDOM_TOKEN_SECRET'
 
 
-BACKEND
 
-Lancement du serveur : 
+Dans le dossier backend
 
-cd backend
-nodemon
 
-FRONTEND
+===> créer le fichier .env
 
-cd frontend
-cd groupamania
-npm run serve
+Inserer mot de passe dans le fichier config de la bdd et le nom du projet( sera le nom de la table pour la bdd)
+
+//------------------
+
+sequelize db:create
+
+sequelize db:migrate
+
+//------------------
+
+Installation des packages voir package-json et version
+
+npm install
+
+lancement avec: npm run dev
+
+//-------------------------------------------------------------------------------
+
+Dans le dossier Frontend/Groupamania
+
+Installation des packages voir package-json et version
+
+npm install
+
+lancement avec: npm run serve
+
+//------------------
 
